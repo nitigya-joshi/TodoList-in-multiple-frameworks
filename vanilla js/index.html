@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla Js</title>
+</head>
+<body>
+    <div class="container">
+        <ul id="todos"></ul>
+
+        <form>
+            <input name="todo" type="text">
+            <input type="submit" value="Add Todo">
+        </form>
+    </div>
+
+    <script>
+        // get DOM elements
+        const form = document.querySelector('form');
+        const input = document.querySelector("[name='todo']");
+        const todoList = document.getElementById("todos");
+
+        
+        // side effects / Lifecycle
+        const existingTodos = JSON.parse(localStorage.getItem("todos"));
+        const todoData = existingTodos || [];
+
+        todoData.forEach(todo => {
+            addTodo(todo);
+        });
+
+
+        // handle inputs    
+        function addTodo(todoText) {
+            todoData.push(todoText);
+
+            const li = document.createElement("li");
+            li.innerHTML = todoText;
+            todoList.appendChild(li);
+
+            localStorage.setItem("todos", JSON.stringify(todoData));
+        }
+
+        form.onsubmit = (event) => {
+            event.preventDefault();
+            addTodo(input.value);
+            input.value = '';
+        }
+
+    </script>
+</body>
+</html>
